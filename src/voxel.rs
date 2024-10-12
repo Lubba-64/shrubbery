@@ -1,7 +1,7 @@
 use glam::{ivec3, vec3, IVec3, Vec3};
 use rand::{thread_rng, Rng};
 
-use crate::{leaf_classifier::LeafClassifier, shrubbery::Shrubbery};
+use crate::{leaf_classifier::LeafClassifier, shrubbery::Shrubbery3d};
 
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub enum VoxelType {
@@ -67,7 +67,7 @@ pub fn drop_leaves(voxels: &mut Vec<(IVec3, VoxelType)>, procentage: f32) {
 }
 
 ///
-pub fn voxelize(shrubbery: &Shrubbery, settings: &VoxelizeSettings) -> Vec<(IVec3, VoxelType)> {
+pub fn voxelize(shrubbery: &Shrubbery3d, settings: &VoxelizeSettings) -> Vec<(IVec3, VoxelType)> {
     let (min_bounds, max_bounds) = shrubbery.get_bounds();
     let mut size = max_bounds - min_bounds;
     // I use half the size to go -half_size -> half_size
@@ -98,7 +98,7 @@ pub fn voxelize(shrubbery: &Shrubbery, settings: &VoxelizeSettings) -> Vec<(IVec
 
 fn process_voxel(
     pos: IVec3,
-    shrubbery: &Shrubbery,
+    shrubbery: &Shrubbery3d,
     settings: &VoxelizeSettings,
     voxels: &mut Vec<(IVec3, VoxelType)>,
 ) {
@@ -156,7 +156,7 @@ fn process_voxel(
 
 fn generate_leaf(
     pos: Vec3,
-    shrubbery: &Shrubbery,
+    shrubbery: &Shrubbery3d,
     voxels: &mut Vec<(IVec3, VoxelType)>,
     leaf_shape: &LeafShape,
     leaf_classifier: &LeafClassifier,

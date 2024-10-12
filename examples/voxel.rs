@@ -1,4 +1,4 @@
-use shrubbery::shape::BoxShape;
+use shrubbery::shape::BoxShape3d;
 use shrubbery::voxel::{
     drop_leaves, voxelize, BranchRootSizeIncreaser, BranchSizeSetting, LeafSetting, LeafShape,
     VoxelType, VoxelizeSettings,
@@ -14,8 +14,8 @@ use kiss3d::event::{Action, Key, WindowEvent};
 use kiss3d::light::Light;
 use kiss3d::window::Window;
 
-fn make_shrubbery() -> Shrubbery {
-    let mut shrubbery = Shrubbery::new(
+fn make_shrubbery() -> Shrubbery3d {
+    let mut shrubbery = Shrubbery3d::new(
         vec3(0., 0., 0.),
         vec3(0., 1., 0.),
         AlgorithmSettings {
@@ -26,14 +26,8 @@ fn make_shrubbery() -> Shrubbery {
         },
         AttractorGeneratorSettings::default(),
     );
-    shrubbery.spawn_attractors_from_shape(
-        vec3(0., 5. + 8.0, 0.),
-        BoxShape {
-            x: 15.0,
-            y: 10.0,
-            z: 15.,
-        },
-    );
+    shrubbery
+        .spawn_attractors_from_shape(vec3(0., 5. + 8.0, 0.), BoxShape3d(vec3(15.0, 10.0, 15.)));
     shrubbery.build_trunk();
     shrubbery
 }
@@ -110,7 +104,7 @@ fn main() {
 }
 
 fn build_voxels(
-    shrubbery: &mut Shrubbery,
+    shrubbery: &mut Shrubbery3d,
     settings: &VoxelizeSettings,
     vis_nodes: &mut Vec<kiss3d::scene::SceneNode>,
     window: &mut Window,
